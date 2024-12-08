@@ -1,37 +1,40 @@
 import React, { useState } from "react";
-import { auth, firestore } from "../firebase"; // Firebase imports
-import { createUserWithEmailAndPassword } from "firebase/auth"; // Import createUserWithEmailAndPassword
-import { setDoc, doc } from "firebase/firestore"; // Firestore methods
-import { toast } from "react-toastify"; // Toast notifications
+import { auth, firestore } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
+  const navigate = useNavigate(); // Initialize navigate function
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      // Register user with email and password
-      await createUserWithEmailAndPassword(auth, email, password);
-      const user = auth.currentUser;
-      console.log(user);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
       if (user) {
-        // Store user data in Firestore
         await setDoc(doc(firestore, "Users", user.uid), {
           email: user.email,
           firstName: fname,
           lastName: lname,
-          photo: "", // Default value for photo
+          photo: "",
         });
       }
-      console.log("User Registered Successfully!!");
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
+      navigate("/home"); // Redirect to home page
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
       toast.error(error.message, {
         position: "bottom-center",
       });
@@ -51,7 +54,6 @@ function Register() {
           required
         />
       </div>
-
       <div className="mb-3">
         <label>Last name</label>
         <input
@@ -61,7 +63,6 @@ function Register() {
           onChange={(e) => setLname(e.target.value)}
         />
       </div>
-
       <div className="mb-3">
         <label>Email address</label>
         <input
@@ -72,7 +73,6 @@ function Register() {
           required
         />
       </div>
-
       <div className="mb-3">
         <label>Password</label>
         <input
@@ -83,7 +83,6 @@ function Register() {
           required
         />
       </div>
-
       <div className="d-grid">
         <button type="submit" className="btn btn-primary">
           Sign Up
