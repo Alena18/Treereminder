@@ -1,0 +1,11 @@
+{
+    "hosting": {
+      "public": "dist", // Update this if your app's build folder has a different name
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    }
+  }
+  
