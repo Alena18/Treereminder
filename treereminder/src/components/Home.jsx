@@ -1,4 +1,3 @@
-home page
 import { useState, useEffect } from "react"; // CHANGE START: Added useEffect for Firestore
 import Tesseract from "tesseract.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
