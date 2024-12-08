@@ -3,7 +3,7 @@ import Tesseract from "tesseract.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { signOut } from "firebase/auth"; // Import signOut method
 import { auth, firestore } from "../firebase"; // Import auth and firestore from Firebase
-import { useNavigate } from "react-router-dom"; // For navigation after logout
+import { useNavigate, Link } from "react-router-dom"; // For navigation after logout
 import { toast } from "react-toastify"; // Optional: for toast notifications
 import { doc, getDoc, updateDoc } from "firebase/firestore"; // CHANGE START: Firestore methods
 import DatePicker from "react-datepicker"; // Import DatePicker
@@ -233,6 +233,12 @@ export default function Home() {
               />
             </div>
             <br />
+            {/* Link to CalendarPage */}
+            <div className="mt-3">
+              <Link to="/calendar" className="btn btn-outline-light btn-sm">
+                View Calendar
+              </Link>
+            </div>
             <h3>You have {count} reminders</h3>
             <div className="text-start">
               <ul>
