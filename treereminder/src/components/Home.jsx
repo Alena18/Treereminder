@@ -6,6 +6,9 @@ import { auth, firestore } from "../firebase"; // Import auth and firestore from
 import { useNavigate } from "react-router-dom"; // For navigation after logout
 import { toast } from "react-toastify"; // Optional: for toast notifications
 import { doc, getDoc, updateDoc } from "firebase/firestore"; // CHANGE START: Firestore methods
+import DatePicker from "react-datepicker"; // Import DatePicker
+import "react-datepicker/dist/react-datepicker.css"; // Import CSS for DatePicker
+import { Link } from "react-router-dom"; // For calendar link
 
 export default function Home() {
   const [count, setCount] = useState(0);
@@ -13,6 +16,7 @@ export default function Home() {
   const [treeCount, setTreesCount] = useState(0);
   const [a, setA] = useState([]); // Array to store reminders
   const [image, setImage] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null); // Date state
 
   // CHANGE START: Fetch reminders from Firestore when component mounts
   useEffect(() => {
@@ -126,6 +130,17 @@ export default function Home() {
               type="text"
               placeholder="Type a reminder!"
             />{" "}
+            {/* DatePicker implementation */}
+            <div className="mt-3">
+              <h5>Select a date for your reminder:</h5>
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+                placeholderText="Select a date"
+                className="form-control w-50 mx-auto"
+              />
+            </div>
+            <br />
             <h3>You have {count} reminders</h3>
             <div className="text-start">
               <ul>
@@ -169,6 +184,11 @@ export default function Home() {
             >
               Log Out
             </button>
+            {/* Link to calendar page */}
+            <br />
+            <Link to="/calendar" className="btn btn-outline-light btn-sm mt-3">
+              Go to Calendar Page
+            </Link>
           </>
         </div>
       </div>
