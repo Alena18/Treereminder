@@ -6,8 +6,6 @@ import { auth, firestore } from "../firebase"; // Import auth and firestore from
 import { useNavigate } from "react-router-dom"; // For navigation after logout
 import { toast } from "react-toastify"; // Optional: for toast notifications
 import { doc, getDoc, updateDoc } from "firebase/firestore"; // CHANGE START: Firestore methods
-import DatePicker from "react-datepicker"; // Import DatePicker
-import "react-datepicker/dist/react-datepicker.css"; // Import CSS for DatePicker
 
 export default function Home() {
   const [count, setCount] = useState(0);
@@ -15,7 +13,6 @@ export default function Home() {
   const [treeCount, setTreesCount] = useState(0);
   const [a, setA] = useState([]); // Array to store reminders
   const [image, setImage] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null); // Date selected by the user
 
   // CHANGE START: Fetch reminders from Firestore when component mounts
   useEffect(() => {
@@ -45,82 +42,6 @@ export default function Home() {
   }, []);
   // CHANGE END
 
-  // Function to handle saving a reminder with date
-  const saveReminder = () => {
-    if (inputField.trim() === "") {
-      return; // Don't save empty reminders
-    }
-
-    const reminder = {
-      text: inputField,
-      date: selectedDate
-        ? selectedDate.toLocaleDateString()
-        : "No date selected", // Format date
-    };
-
-    // Add reminder to the list
-    pushReminder(reminder);
-    setInputField(""); // Clear the input field
-    setSelectedDate(null); // Reset the selected date
-  };
-
-  // Function to push a reminder to the array
-  async function pushReminder(newReminder) {
-    const updatedReminders = [...a, newReminder];
-    setA(updatedReminders);
-    setCount(updatedReminders.length);
-
-    // CHANGE START: Save reminder to Firestore
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        const docRef = doc(firestore, "Users", user.uid);
-        await updateDoc(docRef, { reminders: updatedReminders });
-      } catch (error) {
-        console.error("Error saving reminders:", error.message);
-      }
-    }
-    // CHANGE END
-  }
-
-  // Remove a reminder
-  async function removeReminder(i) {
-    const updatedReminders = [...a];
-    updatedReminders.splice(i, 1); // Remove the reminder at index i
-    setA(updatedReminders);
-    setCount(updatedReminders.length);
-    setTreesCount(treeCount + 1);
-
-    // CHANGE START: Update Firestore after removing a reminder
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        const docRef = doc(firestore, "Users", user.uid);
-        await updateDoc(docRef, { reminders: updatedReminders });
-      } catch (error) {
-        console.error("Error updating reminders:", error.message);
-      }
-    }
-    // CHANGE END
-  }
-
-  // Function to clear all reminders
-  async function clearReminders() {
-    setA([]);
-    setCount(0);
-
-    // CHANGE START: Clear all reminders in Firestore
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        const docRef = doc(firestore, "Users", user.uid);
-        await updateDoc(docRef, { reminders: [] });
-      } catch (error) {
-        console.error("Error clearing reminders:", error.message);
-      }
-    }
-    // CHANGE END
-  }
   //enter key input reference
   //https://www.geeksforgeeks.org/how-to-get-the-enter-key-in-reactjs/
 
@@ -134,22 +55,24 @@ export default function Home() {
   //         >
   //           Save Reminder
   //         </button>
-  // Image upload handler
+
+  //image upload is generated from chat gpt
   const imageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(URL.createObjectURL(file)); // Preview the uploaded image
+      setImage(URL.createObjectURL(file));
     }
   };
-
-  // OCR functionality to extract text from the image
+  //tesseract recognise reference
+  //https://stackoverflow.com/questions/65835056/how-to-use-tesseract-recognize-in-nodejs
   const ocrFunction = () => {
     Tesseract.recognize(image, "eng").then(({ data: { text } }) => {
-      setInputField(text); // Set the extracted text into the input field
+      //setOutput(text);
+      setInputField(text);
     });
   };
 
-  // UseNavigate hook for redirection
+  // useNavigate hook for redirection
   const navigate = useNavigate();
 
   // Logout function
@@ -165,26 +88,6 @@ export default function Home() {
       });
     }
   };
-
-  // Function to handle tree removal (reset count)
-  function RemoveTrees() {
-    setTreesCount(0);
-  }
-
-  // Conditional rendering of trees message
-  function TreesRender(props) {
-    let treeCount = props.treeCount;
-    if (treeCount === 0) {
-      return <>You have {treeCount} trees... do better</>;
-    }
-    if (treeCount < 10) {
-      return <>You have {treeCount} trees... getting there!</>;
-    }
-    if (treeCount < 20) {
-      return <>You have {treeCount} trees great job!</>;
-    }
-    return <>You have {treeCount} trees amazing work!</>;
-  }
 
   return (
     <div className="bg-dark text-white min-vh-100 d-flex justify-content-center align-items-top">
@@ -216,12 +119,13 @@ export default function Home() {
               onChange={(textBox) => setInputField(textBox.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  saveReminder(); // Save reminder on Enter key
+                  pushReminder(inputField);
+                  setInputField("");
                 }
               }}
               type="text"
               placeholder="Type a reminder!"
-            />
+            />{" "}
             {/* DatePicker implementation */}
             <div className="mt-3">
               <h5>Select a date for your reminder:</h5>
@@ -244,7 +148,7 @@ export default function Home() {
                         removeReminder(index);
                       }}
                     ></button>{" "}
-                    &nbsp;
+                    &nbsp; &nbsp;
                     {item.text} - {item.date}{" "}
                     {/* Display reminder text and date */}
                   </li>
@@ -282,7 +186,7 @@ export default function Home() {
       </div>
     </div>
   );
-  // Function to push a reminder to the array
+  //function to push a reminder to the array
   async function pushReminder(newReminder) {
     const updatedReminders = [...a, newReminder];
     setA(updatedReminders);
@@ -301,7 +205,7 @@ export default function Home() {
     // CHANGE END
   }
 
-  // Remove reminder
+  //remove reminder
   async function removeReminder(i) {
     const updatedReminders = [...a];
     updatedReminders.splice(i, 1); // Remove the reminder at index i
@@ -322,12 +226,12 @@ export default function Home() {
     // CHANGE END
   }
 
-  // Clear trees
+  //clear trees
   function RemoveTrees() {
     setTreesCount(0);
   }
 
-  // Conditional rendering of trees message
+  //conditional rendering of trees message
   function TreesRender(props) {
     let treeCount = props.treeCount;
     console.clear();
@@ -344,7 +248,7 @@ export default function Home() {
     return <>You have {treeCount} trees amazing work!</>;
   }
 
-  // Clear all reminders
+  //clear all reminders
   async function clearReminders() {
     setA([]);
     setCount(0);
@@ -367,7 +271,7 @@ export default function Home() {
   //   setInputField(output);
   // }
 
-  // Tesseract OCR text output
+  //conditional rendering of tesseract text output
   function tesseractOutput() {
     return <>This is a test</>;
   }
