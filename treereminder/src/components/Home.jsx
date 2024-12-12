@@ -8,6 +8,7 @@ import { toast } from "react-toastify"; // Optional: for toast notifications
 import { doc, getDoc, updateDoc } from "firebase/firestore"; // CHANGE START: Firestore methods
 import DatePicker from "react-datepicker"; // Import DatePicker
 import "react-datepicker/dist/react-datepicker.css"; // Import CSS for DatePicker
+import Treeicon from "../public/tree4w.svg";
 
 export default function Home() {
   const [count, setCount] = useState(0);
@@ -235,19 +236,29 @@ export default function Home() {
             <br />
             {/* Link to CalendarPage */}
             <Link
-                to="/calendar"
-                state={{ reminders: a }} // Passing the reminders to the CalendarPage
-                className="btn btn-outline-light btn-sm"
-              >
-                View Calendar
-              </Link>
+              to="/calendar"
+              state={{ reminders: a }} // Passing the reminders to the CalendarPage
+              className="btn btn-outline-light btn-sm"
+            >
+              View Calendar
+            </Link>
             <h3>You have {count} reminders</h3>
             <div className="text-start">
               <ul>
                 {a.map((item, index) => (
                   <li key={index}>
+                    <img
+                      src={Treeicon}
+                      alt="custom bullet"
+                      style={{
+                        width: "16px",
+                        height: "16px",
+                        marginRight: "8px",
+                      }}
+                    />
                     <button
                       className="form-check-input"
+                      style={{ padding: ".6rem" }}
                       onClick={() => {
                         removeReminder(index);
                       }}
@@ -280,7 +291,7 @@ export default function Home() {
             </button>
             <br />
             <button
-              className="btn text-white btn-sm mt-3"
+              className="btn text-white btn-outline-light btn-sm mt-3"
               onClick={handleLogout}
             >
               Log Out

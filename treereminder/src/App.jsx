@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom"; // Correct import for useLocation
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom"; // Correct import for useLocation
 
 import Login from "./components/Login";
 import SignUp from "./components/Register";
@@ -26,19 +32,27 @@ function App() {
   // Background color change logic based on the current route
   useEffect(() => {
     // Remove all background color classes before adding the new one
-    document.body.classList.remove("dark-background", "light-background", "green-background");
+    document.body.classList.remove(
+      "dark-background",
+      "light-background",
+      "green-background"
+    );
 
     if (location.pathname === "/home") {
       document.body.classList.add("dark-background");
     } else if (location.pathname === "/calendar") {
-      document.body.classList.add("light-background");
+      document.body.classList.add("dark-background");
     } else {
       document.body.classList.add("green-background");
     }
 
     // Cleanup when component unmounts or pathname changes
     return () => {
-      document.body.classList.remove("dark-background", "light-background", "green-background");
+      document.body.classList.remove(
+        "dark-background",
+        "light-background",
+        "green-background"
+      );
     };
   }, [location.pathname]); // This effect will run on each route change
 
@@ -49,7 +63,9 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={user ? <Navigate to="/home" /> : <Navigate to="/register" />}
+              element={
+                user ? <Navigate to="/home" /> : <Navigate to="/register" />
+              }
             />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<SignUp />} />

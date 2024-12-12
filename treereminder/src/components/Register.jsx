@@ -27,7 +27,6 @@ function Register() {
           email: user.email,
           firstName: fname,
           lastName: lname,
-          photo: "",
         });
       }
       toast.success("User Registered Successfully!!", {
@@ -90,7 +89,7 @@ function Register() {
           className="d-grid justify-content-center"
           style={{ marginTop: "5%" }}
         >
-          <button type="submit" className="btn text-white">
+          <button type="submit" className="btn text-white btn-outline-light">
             Sign Up
           </button>
         </div>
