@@ -234,11 +234,13 @@ export default function Home() {
             </div>
             <br />
             {/* Link to CalendarPage */}
-            <div>
-              <Link to="/calendar" className="btn btn-outline-light btn-sm">
+            <Link
+                to="/calendar"
+                state={{ reminders: a }} // Passing the reminders to the CalendarPage
+                className="btn btn-outline-light btn-sm"
+              >
                 View Calendar
               </Link>
-            </div>
             <h3>You have {count} reminders</h3>
             <div className="text-start">
               <ul>
