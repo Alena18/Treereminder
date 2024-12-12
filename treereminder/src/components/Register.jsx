@@ -89,7 +89,7 @@ function Register() {
           className="d-grid justify-content-center"
           style={{ marginTop: "5%" }}
         >
-          <button type="submit" className="btn text-white btn-outline-light">
+          <button type="submit" className="btn btn-outline-light">
             Sign Up
           </button>
         </div>

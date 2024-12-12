@@ -90,7 +90,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-dark text-white min-vh-100 d-flex justify-content-center align-items-top">
+    <div className="bg-dark min-vh-100 d-flex justify-content-center align-items-top">
       <div className="container text-center">
         <div className="mt-3">
           <>

@@ -188,7 +188,7 @@ export default function Home() {
   }
 
   return (
-    <div className="text-white min-vh-100 d-flex justify-content-center align-items-top">
+    <div className="min-vh-100 d-flex justify-content-center align-items-top">
       <div className="container text-center">
         <div className="mt-3">
           <>
@@ -225,7 +225,7 @@ export default function Home() {
             />
             {/* DatePicker implementation */}
             <div className="mt-3">
-              <h5>Select a date for your reminder:</h5>
+              <h3>Select a date for your reminder:</h3>
               <DatePicker
                 selected={selectedDate}
                 onChange={(date) => setSelectedDate(date)}
@@ -291,7 +291,7 @@ export default function Home() {
             </button>
             <br />
             <button
-              className="btn text-white btn-outline-light btn-sm mt-3"
+              className="btn btn-outline-light btn-sm mt-3"
               onClick={handleLogout}
             >
               Log Out

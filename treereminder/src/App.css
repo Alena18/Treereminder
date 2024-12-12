@@ -1,6 +1,18 @@
 body {
   background-color: rgb(4, 64, 41);
-  color: white;
+  color: rgb(209, 205, 205);
+}
+
+.btn {
+  color: black;
+}
+
+.react-calendar {
+  background-color: rgb(209, 205, 205);
+}
+
+.form-control {
+  background-color: rgb(209, 205, 205);
 }
 
 ul {

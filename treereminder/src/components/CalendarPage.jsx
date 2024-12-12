@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import { useLocation } from 'react-router-dom'; // Hook to access passed state
+import React, { useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { useLocation } from "react-router-dom"; // Hook to access passed state
 
 function CalendarPage() {
   const [date, setDate] = useState(new Date());
@@ -19,12 +19,9 @@ function CalendarPage() {
   };
 
   return (
-    <div className="calend-back calendar-container text-white">
+    <div className="calendar-container">
       <h3>Pick a date for your reminder</h3>
-      <Calendar
-        onChange={handleDateChange}
-        value={date}
-      />
+      <Calendar onChange={handleDateChange} value={date} />
       <div className="reminders-list">
         <h4>Reminders for {date.toLocaleDateString()}:</h4>
         <ul>
