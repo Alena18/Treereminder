@@ -7,10 +7,6 @@ body {
   color: black;
 }
 
-.react-calendar {
-  background-color: rgb(209, 205, 205);
-}
-
 .form-control {
   background-color: rgb(209, 205, 205);
 }
@@ -41,17 +37,24 @@ a:hover {
   margin-top: 5%;
 }
 
-.dark-background {
+.dark-background-home {
   background-color: #121212;
+  color: rgb(209, 205, 205);
 }
 
 .green-background {
   background-color: rgb(4, 64, 41);
 }
 
-.light-background {
-  background-color: #cac2c2;
+.dark-background-calendar {
+  background-color: #121212;
+  color: rgb(111, 111, 111);
 }
+
+input:focus {
+  outline: none;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;

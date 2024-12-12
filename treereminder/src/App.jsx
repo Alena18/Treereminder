@@ -39,9 +39,9 @@ function App() {
     );
 
     if (location.pathname === "/home") {
-      document.body.classList.add("dark-background");
+      document.body.classList.add("dark-background-home");
     } else if (location.pathname === "/calendar") {
-      document.body.classList.add("dark-background");
+      document.body.classList.add("dark-background-calendar");
     } else {
       document.body.classList.add("green-background");
     }
