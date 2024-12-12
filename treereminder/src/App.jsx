@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom"; // Correct import for useLocation
 
 import Login from "./components/Login";
 import SignUp from "./components/Register";
@@ -18,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [user, setUser] = useState(null); // Set initial state to null
+  const location = useLocation(); // Now it's inside Router context
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -27,49 +23,51 @@ function App() {
     return () => unsubscribe(); // Clean up the listener on component unmount
   }, []);
 
- // Background color change logic
- useEffect(() => {
-  if (location.pathname === "/home" ) {
-    document.body.classList.add("dark-background");
-    document.body.classList.remove("green-background");
-  } else if(location.pathname === "/calendar") {
-    document.body.classList.add("light-background");
-    document.body.classList.remove("green-background");
-  }else {
-    document.body.classList.add("green-background");
-    document.body.classList.remove("dark-background");
-  }
+  // Background color change logic based on the current route
+  useEffect(() => {
+    // Remove all background color classes before adding the new one
+    document.body.classList.remove("dark-background", "light-background", "green-background");
 
-  // Cleanup when component unmounts or pathname changes
-  return () => {
-    document.body.classList.remove("dark-background");
-    document.body.classList.remove("green-background");
-  };
-}, [location.pathname]);
+    if (location.pathname === "/home") {
+      document.body.classList.add("dark-background");
+    } else if (location.pathname === "/calendar") {
+      document.body.classList.add("light-background");
+    } else {
+      document.body.classList.add("green-background");
+    }
+
+    // Cleanup when component unmounts or pathname changes
+    return () => {
+      document.body.classList.remove("dark-background", "light-background", "green-background");
+    };
+  }, [location.pathname]); // This effect will run on each route change
 
   return (
-    <Router>
-      <div className="App">
-        <div className="auth-wrapper">
-          <div className="auth-inner">
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  user ? <Navigate to="/home" /> : <Navigate to="/register" />
-                }
-              />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<SignUp />} />
-              <Route path="/home" element={<Home className="dark-background"/>} />
-              <Route path="/calendar" element={<CalendarPage className="light-background"/>} />
-            </Routes>
-            <ToastContainer />
-          </div>
+    <div className="App">
+      <div className="auth-wrapper">
+        <div className="auth-inner">
+          <Routes>
+            <Route
+              path="/"
+              element={user ? <Navigate to="/home" /> : <Navigate to="/register" />}
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+          </Routes>
+          <ToastContainer />
         </div>
       </div>
-    </Router>
+    </div>
   );
 }
 
-export default App;
+// Wrap the entire app inside <Router> so useLocation can work
+export default function Root() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+}
