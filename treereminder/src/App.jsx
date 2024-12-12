@@ -33,8 +33,8 @@ function App() {
   useEffect(() => {
     // Remove all background color classes before adding the new one
     document.body.classList.remove(
-      "dark-background",
-      "light-background",
+      "dark-background-home",
+      "dark-background-calendar",
       "green-background"
     );
 
@@ -49,8 +49,8 @@ function App() {
     // Cleanup when component unmounts or pathname changes
     return () => {
       document.body.classList.remove(
-        "dark-background",
-        "light-background",
+        "dark-background-home",
+        "dark-background-calendar",
         "green-background"
       );
     };

@@ -20,29 +20,33 @@ export default function Home() {
 
   // CHANGE START: Fetch reminders from Firestore when component mounts
   useEffect(() => {
-    const fetchReminders = async () => {
+    const fetchRemindersAndTreeCount = async () => {
       const user = auth.currentUser;
       if (user) {
         try {
-          const docRef = doc(firestore, "Users", user.uid); // Reference user's Firestore document
-          const docSnap = await getDoc(docRef); // Fetch document
+          const docRef = doc(firestore, "Users", user.uid);
+          const docSnap = await getDoc(docRef);
+  
           if (docSnap.exists()) {
             const userData = docSnap.data();
             if (userData.reminders) {
-              setA(userData.reminders); // Populate reminders array
-              setCount(userData.reminders.length); // Update count
+              setA(userData.reminders);
+              setCount(userData.reminders.length);
+            }
+            if (userData.treeCount) {
+              setTreesCount(userData.treeCount); // Set the tree count from Firestore
             }
           } else {
-            // If user document doesn't exist, create it
-            await updateDoc(docRef, { email: user.email, reminders: [] });
+            // If user document doesn't exist, create it with initial values
+            await updateDoc(docRef, { email: user.email, reminders: [], treeCount: 0 });
           }
         } catch (error) {
-          console.error("Error fetching reminders:", error.message);
+          console.error("Error fetching data:", error.message);
         }
       }
     };
-
-    fetchReminders();
+  
+    fetchRemindersAndTreeCount();
   }, []);
   // CHANGE END
 
@@ -94,14 +98,17 @@ export default function Home() {
 
     // CHANGE START: Update Firestore after removing a reminder
     const user = auth.currentUser;
-    if (user) {
-      try {
-        const docRef = doc(firestore, "Users", user.uid);
-        await updateDoc(docRef, { reminders: updatedReminders });
-      } catch (error) {
-        console.error("Error updating reminders:", error.message);
-      }
+  if (user) {
+    try {
+      const docRef = doc(firestore, "Users", user.uid);
+      await updateDoc(docRef, {
+        reminders: updatedReminders,
+        treeCount: treeCount + 1, // Update tree count
+      });
+    } catch (error) {
+      console.error("Error updating reminders:", error.message);
     }
+  }
     // CHANGE END
   }
 
@@ -168,8 +175,20 @@ export default function Home() {
   };
 
   // Function to handle tree removal (reset count)
-  function RemoveTrees() {
+  async function RemoveTrees() {
     setTreesCount(0);
+
+// CHANGE START
+    const user = auth.currentUser;
+  if (user) {
+    try {
+      const docRef = doc(firestore, "Users", user.uid);
+      await updateDoc(docRef, { treeCount: 0 }); // Reset tree count in Firestore
+    } catch (error) {
+      console.error("Error resetting tree count:", error.message);
+    }
+  }
+  // CHANGE END
   }
 
   // Conditional rendering of trees message
@@ -342,8 +361,20 @@ export default function Home() {
   }
 
   // Clear trees
-  function RemoveTrees() {
+  async function RemoveTrees() {
     setTreesCount(0);
+   
+    //CHANGE START
+    const user = auth.currentUser;
+  if (user) {
+    try {
+      const docRef = doc(firestore, "Users", user.uid);
+      await updateDoc(docRef, { treeCount: 0 }); // Reset tree count in Firestore
+    } catch (error) {
+      console.error("Error resetting tree count:", error.message);
+    }
+  }
+  //CHANGE END
   }
 
   // Conditional rendering of trees message
