@@ -10,7 +10,7 @@ function CalendarPage() {
   };
 
   return (
-    <div className="calendar-container">
+    <div className="calend-back calendar-container text-white">
       <h3>Pick a date for your reminder</h3>
       <Calendar
         onChange={handleDateChange} // Handle date change

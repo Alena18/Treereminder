@@ -187,7 +187,7 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-dark text-white min-vh-100 d-flex justify-content-center align-items-top">
+    <div className="text-white min-vh-100 d-flex justify-content-center align-items-top">
       <div className="container text-center">
         <div className="mt-3">
           <>
@@ -211,7 +211,7 @@ export default function Home() {
             &nbsp;
             <br />
             <input
-              class="form-control w-50 mx-auto"
+              class="form-control w-50 mx-auto margt"
               value={inputField}
               onChange={(textBox) => setInputField(textBox.target.value)}
               onKeyDown={(e) => {
@@ -234,7 +234,7 @@ export default function Home() {
             </div>
             <br />
             {/* Link to CalendarPage */}
-            <div className="mt-3">
+            <div>
               <Link to="/calendar" className="btn btn-outline-light btn-sm">
                 View Calendar
               </Link>
@@ -269,7 +269,7 @@ export default function Home() {
               onChange={imageUpload}
             />
             <button
-              class="btn btn-outline-light btn-sm"
+              class="btn btn-outline-light btn-sm margt"
               onClick={() => {
                 ocrFunction();
               }}
@@ -278,7 +278,7 @@ export default function Home() {
             </button>
             <br />
             <button
-              className="btn btn-outline-danger btn-sm mt-3"
+              className="btn text-white btn-sm mt-3"
               onClick={handleLogout}
             >
               Log Out

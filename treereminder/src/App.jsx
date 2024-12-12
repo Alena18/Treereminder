@@ -27,6 +27,26 @@ function App() {
     return () => unsubscribe(); // Clean up the listener on component unmount
   }, []);
 
+ // Background color change logic
+ useEffect(() => {
+  if (location.pathname === "/home" ) {
+    document.body.classList.add("dark-background");
+    document.body.classList.remove("green-background");
+  } else if(location.pathname === "/calendar") {
+    document.body.classList.add("light-background");
+    document.body.classList.remove("green-background");
+  }else {
+    document.body.classList.add("green-background");
+    document.body.classList.remove("dark-background");
+  }
+
+  // Cleanup when component unmounts or pathname changes
+  return () => {
+    document.body.classList.remove("dark-background");
+    document.body.classList.remove("green-background");
+  };
+}, [location.pathname]);
+
   return (
     <Router>
       <div className="App">
@@ -41,8 +61,8 @@ function App() {
               />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<SignUp />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/home" element={<Home className="dark-background"/>} />
+              <Route path="/calendar" element={<CalendarPage className="light-background"/>} />
             </Routes>
             <ToastContainer />
           </div>

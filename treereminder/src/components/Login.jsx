@@ -54,7 +54,7 @@ function Login() {
           className="d-grid justify-content-center"
           style={{ marginTop: "5%" }}
         >
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn text-white">
             Login
           </button>
         </div>

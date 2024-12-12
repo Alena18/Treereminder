@@ -20,6 +20,21 @@ a:hover {
   background-color: rgb(245, 208, 24);
 }
 
+.margt {
+  margin-top: 5%;
+}
+
+.dark-background {
+  background-color: #121212;
+}
+
+.green-background {
+  background-color: rgb(4, 64, 41);
+}
+
+.light-background{
+  background-color: #cac2c2;
+}
 #root {
   max-width: 1280px;
   margin: 0 auto;
