@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
-import Trees from "../public/trees64.svg";
+import Trees from "../public/image.png";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -43,7 +43,7 @@ function Register() {
 
   return (
     <>
-      <img alt="Tree" src={Trees} style={{ marginBottom: "5%" }} />
+      <img alt="Tree" src={Trees} style={{ width: "50%", height: "50%" }} />
       <form onSubmit={handleRegister}>
         <h3>Sign Up</h3>
         <div className="mb-3">
